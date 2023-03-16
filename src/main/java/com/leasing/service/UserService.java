@@ -15,7 +15,6 @@ public class UserService {
     public void createUser(User user){userRepository.save(user);}
     public void updateUser(User user){userRepository.saveAndFlush(user);}
     public ArrayList<User> getAllUsers() {return (ArrayList<User>) userRepository.findAll();}
-
     public User getUserById(int id){return userRepository.findById(id).get();}
     public void deleteUser (User user){userRepository.delete(user);}
 }

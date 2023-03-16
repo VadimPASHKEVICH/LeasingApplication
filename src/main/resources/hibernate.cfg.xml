@@ -18,6 +18,7 @@
 
         <mapping class="com.leasing.domain.User"/>
         <mapping class="com.leasing.domain.Agreement"/>
+        <mapping class="com.leasing.domain.CreditCard"/>
 
     </session-factory>
 </hibernate-configuration>

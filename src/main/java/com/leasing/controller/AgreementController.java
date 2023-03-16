@@ -1,6 +1,8 @@
 package com.leasing.controller;
+
+import com.leasing.domain.Agreement;
 import com.leasing.domain.User;
-import com.leasing.service.UserService;
+import com.leasing.service.AgreementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,51 +12,54 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserController {
+@RequestMapping(value = "/agreement", produces = MediaType.APPLICATION_JSON_VALUE)
+public class AgreementController {
+
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final UserService userService;
+
+    private final AgreementService agreementService;
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public AgreementController(AgreementService agreementService) {
+        this.agreementService = agreementService;
     }
     @PostMapping
-    public ResponseEntity<HttpStatus> createUser(@RequestBody User user, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> createAgreement(@RequestBody Agreement agreement, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        userService.createUser(user);
+        agreementService.createAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, BindingResult bindingResult ) {
+    public ResponseEntity<HttpStatus> updateAgreement(@RequestBody Agreement agreement, BindingResult bindingResult ) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        userService.updateUser(user);
+        agreementService.updateAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping
-    public ResponseEntity<ArrayList<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    public ResponseEntity<ArrayList<Agreement>> getAllAgreements() {
+        return new ResponseEntity<>(agreementService.getAllAgreements(), HttpStatus.OK);
     }
     @GetMapping("{/id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id){
-        User user = userService.getUserById(id);
-        return new ResponseEntity<>(user, user.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
+    public ResponseEntity<Agreement> getAgreementById(@PathVariable int id){
+        Agreement agreement = agreementService.getAgreementById(id);
+        return new ResponseEntity<>(agreement, agreement.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
     @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(@RequestBody User user) {
-        userService.deleteUser(user);
+    public ResponseEntity<HttpStatus> delete(@RequestBody Agreement agreement) {
+        agreementService.deleteUser(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -1,6 +1,8 @@
 package com.leasing.controller;
+
+import com.leasing.domain.CreditCard;
 import com.leasing.domain.User;
-import com.leasing.service.UserService;
+import com.leasing.service.CreditCardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,51 +12,43 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
 
 @RestController
-@RequestMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserController {
+@RequestMapping(value = "/card", produces = MediaType.APPLICATION_JSON_VALUE)
+public class CreditCardController {
+
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final UserService userService;
+
+    private final CreditCardService cardService;
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public CreditCardController(CreditCardService cardService) {
+        this.cardService = cardService;
     }
     @PostMapping
-    public ResponseEntity<HttpStatus> createUser(@RequestBody User user, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> createCard(@RequestBody CreditCard card, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        userService.createUser(user);
+        cardService.createCard(card);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, BindingResult bindingResult ) {
+    public ResponseEntity<HttpStatus> updateCard(@RequestBody CreditCard card, BindingResult bindingResult ) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        userService.updateUser(user);
+        cardService.updateCard(card);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping
-    public ResponseEntity<ArrayList<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-    }
-    @GetMapping("{/id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id){
-        User user = userService.getUserById(id);
-        return new ResponseEntity<>(user, user.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
-    }
     @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(@RequestBody User user) {
-        userService.deleteUser(user);
+    public ResponseEntity<HttpStatus> deleteCard(@RequestBody CreditCard card) {
+        cardService.deleteCard(card);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
