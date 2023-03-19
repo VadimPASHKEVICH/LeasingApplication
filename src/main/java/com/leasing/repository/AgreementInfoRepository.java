@@ -1,8 +1,8 @@
 package com.leasing.repository;
-import com.leasing.domain.CreditCard;
+import com.leasing.domain.AgreementInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CreditCardRepository extends JpaRepository<CreditCard, Integer> {
+public interface AgreementInfoRepository extends JpaRepository<AgreementInfo, Integer> {
 }

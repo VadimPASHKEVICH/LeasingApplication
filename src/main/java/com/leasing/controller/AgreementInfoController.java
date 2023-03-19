@@ -1,8 +1,7 @@
 package com.leasing.controller;
-
 import com.leasing.domain.Agreement;
-import com.leasing.domain.User;
-import com.leasing.service.AgreementService;
+import com.leasing.domain.AgreementInfo;
+import com.leasing.service.AgreementInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,50 +15,49 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(value = "/agreement", produces = MediaType.APPLICATION_JSON_VALUE)
-public class AgreementController {
-
+@RequestMapping(name = "/info", produces = MediaType.APPLICATION_JSON_VALUE)
+public class AgreementInfoController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private final AgreementService agreementService;
+    AgreementInfoService agreementInfoService;
     @Autowired
-    public AgreementController(AgreementService agreementService) {
-        this.agreementService = agreementService;
+    public AgreementInfoController(AgreementInfoService agreementInfoService) {
+        this.agreementInfoService = agreementInfoService;
     }
     @PostMapping
-    public ResponseEntity<HttpStatus> createAgreement(@RequestBody Agreement agreement, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> createAgInfo(@RequestBody AgreementInfo agreementInfo, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        agreementService.createAgreement(agreement);
+        agreementInfoService.createAgInfo(agreementInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping
-    public ResponseEntity<HttpStatus> updateAgreement(@RequestBody Agreement agreement, BindingResult bindingResult ) {
+    public ResponseEntity<HttpStatus> updateAgInfo(@RequestBody AgreementInfo agreementInfo, BindingResult bindingResult ) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        agreementService.updateAgreement(agreement);
+        agreementInfoService.updateAgInfo(agreementInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping
-    public ResponseEntity<ArrayList<Agreement>> getAllAgreements() {
-        return new ResponseEntity<>(agreementService.getAllAgreements(), HttpStatus.OK);
+    public ResponseEntity<ArrayList<AgreementInfo>> getAllAgInfo() {
+        return new ResponseEntity<>(agreementInfoService.getAllAgInfo(), HttpStatus.OK);
     }
-    @GetMapping("{/id}")
-    public ResponseEntity<Agreement> getAgreementById(@PathVariable int id){
-        Agreement agreement = agreementService.getAgreementById(id);
-        return new ResponseEntity<>(agreement, agreement.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
+    @GetMapping("{/info/{id}")
+    public ResponseEntity<AgreementInfo> getAgInfoById(@PathVariable int id){
+        AgreementInfo agreementInfo = agreementInfoService.getAgInfoById(id);
+        return new ResponseEntity<>(agreementInfo, agreementInfo.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
     @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(@RequestBody Agreement agreement) {
-        agreementService.deleteAgreement(agreement);
+    public ResponseEntity<HttpStatus> delete(@RequestBody AgreementInfo agreementInfo) {
+        agreementInfoService.deleteAgInfo(agreementInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
