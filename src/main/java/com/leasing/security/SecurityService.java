@@ -1,5 +1,4 @@
 package com.leasing.security;
-
 import com.leasing.domain.User;
 import com.leasing.domain.request.RegistrationUser;
 import com.leasing.repository.UserRepository;
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SecurityService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -29,9 +27,9 @@ public class SecurityService {
             user.setPassword(passwordEncoder.encode(registrationUser.getPassword()));
 
             User savedUser = userRepository.save(user);
-            boolean roleResult = userRepository.addUserRole(user.getId());
+            userRepository.addUserRole(user.getId());
 
-            if (savedUser != null && roleResult) {
+            if (savedUser != null) {
                 return true;
             }
         } catch (Exception exception) {

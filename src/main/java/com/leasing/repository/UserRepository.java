@@ -2,6 +2,7 @@ package com.leasing.repository;
 
 import com.leasing.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +11,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findUserByLogin(String login);
 
-    @Query(nativeQuery = true, value = "SELECT roles FROM roles WHERE user_id=:id")
+    @Query(nativeQuery = true, value = "SELECT role FROM roles WHERE user_id=:id")
     String getRole(int id);
-
-    @Query(nativeQuery = true, value = "INSERT INTO role(user_id,roles) VALUES (:userId, 'USER')")
-    boolean addUserRole(int userId);
+    @Modifying
+    @Query(value = "INSERT INTO roles (id,user_id,role) VALUES (DEFAULT, :userId, 'USER')", nativeQuery = true)
+    void addUserRole(int userId);
 }

@@ -1,30 +1,27 @@
 package com.leasing.security;
+import com.leasing.domain.request.RegistrationUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import java.net.http.HttpResponse;
 
-import java.security.Principal;
 
-@Controller
+@RestController
 public class SecurityController {
-
-    @GetMapping("/home")
-    public String getHomePage(){
-        return "home";
+    private final SecurityService securityService;
+    @Autowired
+    public SecurityController(SecurityService securityService) {
+        this.securityService = securityService;
     }
 
-    @GetMapping("/bye")
-    public String getByePage(Principal principal){
-        System.out.println(principal);
-        return "bye";
-    }
-    @GetMapping("/hello")
-    public String getHelloPage(){
-        return "hello";
+    @PostMapping("/registration")
+        public ResponseEntity<HttpResponse> registrationUser(@RequestBody RegistrationUser registrationUser){
+            return new ResponseEntity<>(securityService.registration(registrationUser)? HttpStatus.CREATED : HttpStatus.CONFLICT);
+
     }
 
-    @GetMapping
-    public String getHomeAlsoPage(){
-        return "home";
-    }
-}
+   }

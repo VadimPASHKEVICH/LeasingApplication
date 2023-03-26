@@ -1,5 +1,4 @@
 package com.leasing.security;
-
 import com.leasing.domain.User;
 import com.leasing.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ public class CustomUserDetailService implements UserDetailsService {
         if(user == null){
             throw  new UsernameNotFoundException(s);
         }
+
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getLogin())
                 .password(user.getPassword())

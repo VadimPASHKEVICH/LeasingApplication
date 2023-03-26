@@ -21,31 +21,20 @@ public class SecurityConfig {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-/*        auth
-                .inMemoryAuthentication()
-                .withUser("user")
-                .password(passwordEncoder().encode("user"))
-                .authorities("ROLE_USER");
-
-        auth
-                .inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder().encode("admin"))
-                .authorities("ROLE_ADMIN");*/
-
         auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeRequests()
-                .antMatchers("/home", "/").permitAll()
-                .antMatchers("/hello").hasRole("ADMIN")
-                .antMatchers("/bye").hasRole("USER")
+        return http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/registration", "/").permitAll()
+                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .and().build();
+                .httpBasic()
+                .and()
+                .build();
     }
 
     @Bean
