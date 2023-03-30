@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    User findUserByLogin(String login);
+    Optional<User> findUserByLogin(String login);
 
     @Query(nativeQuery = true, value = "SELECT role FROM roles WHERE user_id=:id")
     String getRole(int id);

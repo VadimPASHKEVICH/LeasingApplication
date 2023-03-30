@@ -21,6 +21,6 @@ public class CreditCard {
     @Size(min = 3, max = 3)
     @Column(name = "cvc_code")
     private int cvcCode;
-//    @Column(name = "user_id")
-//    private int userId;
+    @Column(name = "user_id")
+    private int userId;
 }

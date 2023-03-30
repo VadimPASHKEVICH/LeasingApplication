@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class AgreementController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     private final AgreementService agreementService;
     @Autowired
     public AgreementController(AgreementService agreementService) {

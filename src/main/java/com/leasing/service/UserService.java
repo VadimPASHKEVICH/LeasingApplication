@@ -4,11 +4,12 @@ import com.leasing.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
     @Autowired
     public UserService(UserRepository userRepository) {this.userRepository = userRepository;}
 
@@ -17,4 +18,12 @@ public class UserService {
     public ArrayList<User> getAllUsers() {return (ArrayList<User>) userRepository.findAll();}
     public User getUserById(int id){return userRepository.findById(id).get();}
     public void deleteUser (User user){userRepository.delete(user);}
+
+    public String getRole(Integer id){
+        return userRepository.getRole(id);
+    }
+
+    public Optional<User> getUserByLogin(String login){
+        return userRepository.findUserByLogin(login);
+    }
 }
