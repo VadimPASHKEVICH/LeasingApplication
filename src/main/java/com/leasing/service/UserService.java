@@ -17,7 +17,7 @@ public class UserService {
     public void updateUser(User user){userRepository.saveAndFlush(user);}
     public ArrayList<User> getAllUsers() {return (ArrayList<User>) userRepository.findAll();}
     public User getUserById(int id){return userRepository.findById(id).get();}
-    public void deleteUser (User user){userRepository.delete(user);}
+    public void deleteUserById (int id){userRepository.deleteById(id);}
 
     public String getRole(Integer id){
         return userRepository.getRole(id);

@@ -22,7 +22,7 @@ public class AgreementInfoController {
     public AgreementInfoController(AgreementInfoService agreementInfoService) {
         this.agreementInfoService = agreementInfoService;
     }
-    @PostMapping
+    @PostMapping("/createInfo")
     public ResponseEntity<HttpStatus> createAgInfo(@RequestBody AgreementInfo agreementInfo, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
@@ -33,7 +33,7 @@ public class AgreementInfoController {
         agreementInfoService.createAgInfo(agreementInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PutMapping
+    @PutMapping("/updateInfo")
     public ResponseEntity<HttpStatus> updateAgInfo(@RequestBody AgreementInfo agreementInfo, BindingResult bindingResult ) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
@@ -44,16 +44,16 @@ public class AgreementInfoController {
         agreementInfoService.updateAgInfo(agreementInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping
+    @GetMapping("/allInfo")
     public ResponseEntity<ArrayList<AgreementInfo>> getAllAgInfo() {
         return new ResponseEntity<>(agreementInfoService.getAllAgInfo(), HttpStatus.OK);
     }
-    @GetMapping("{/info/{id}")
+    @GetMapping("{/getInfoBy{id}")
     public ResponseEntity<AgreementInfo> getAgInfoById(@PathVariable int id){
         AgreementInfo agreementInfo = agreementInfoService.getAgInfoById(id);
         return new ResponseEntity<>(agreementInfo, agreementInfo.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
-    @DeleteMapping
+    @DeleteMapping("/deleteAgInfo")
     public ResponseEntity<HttpStatus> delete(@RequestBody AgreementInfo agreementInfo) {
         agreementInfoService.deleteAgInfo(agreementInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -22,6 +22,6 @@ public class Agreement {
     private double debt;
     @Column(name = "credit")
     private double credit;
-
-
+    @Column(name = "user_id")
+    private int user_id;
 }

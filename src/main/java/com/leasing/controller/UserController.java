@@ -21,7 +21,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<HttpStatus> createUser(@RequestBody User user, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
@@ -32,7 +32,7 @@ public class UserController {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, BindingResult bindingResult ) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
@@ -43,18 +43,18 @@ public class UserController {
         userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<ArrayList<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
-    @GetMapping("{/id}")
+    @GetMapping("{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id){
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, user.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
-    @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(@RequestBody User user) {
-        userService.deleteUser(user);
+    @DeleteMapping("/deleteUser{id}")
+    public ResponseEntity<HttpStatus> deleteUserById(@PathVariable int id) {
+        userService.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

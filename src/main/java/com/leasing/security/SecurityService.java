@@ -5,6 +5,9 @@ import com.leasing.domain.request.RegistrationUser;
 import com.leasing.domain.response.JwtResponse;
 import com.leasing.repository.UserRepository;
 import com.leasing.security.jwt.JwtProvider;
+import com.leasing.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,23 +19,25 @@ import java.util.Optional;
 public class SecurityService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtProvider jwtProvider;
+    private final UserService userService;
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    public SecurityService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider) {
+    public SecurityService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserService userService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtProvider = jwtProvider;
+        this.userService = userService;
     }
-    public String getToken(JwtAuthRequest jwtAuthRequest){
-        Optional<User> user = userRepository.findUserByLogin(jwtAuthRequest.getLogin());
-        if(user.isPresent() && passwordEncoder.matches(jwtAuthRequest.getPassword(), user.get().getPassword())){
-            return jwtProvider.createJwtToken(jwtAuthRequest.getLogin());
-        }
-        return "";
-    }
+
+//    public String getToken(JwtAuthRequest jwtAuthRequest){
+//        Optional<User> user = userRepository.findUserByLogin(jwtAuthRequest.getLogin());
+//        if(user.isPresent() && passwordEncoder.matches(jwtAuthRequest.getPassword(), user.get().getPassword())){
+//            return jwtProvider.createJwtToken(jwtAuthRequest.getLogin());
+//        }
+//        return "";
+//    }
     @Transactional(rollbackFor = Exception.class)
-    public boolean registration(RegistrationUser registrationUser) {
+    public boolean registrationUser(RegistrationUser registrationUser) {
         try {
             User user = new User();
             user.setFirstName(registrationUser.getFirstName());
@@ -47,7 +52,7 @@ public class SecurityService {
                 return true;
             }
         } catch (Exception exception) {
-            System.out.println(exception);
+            log.error(exception.getMessage());
         }
         return false;
     }

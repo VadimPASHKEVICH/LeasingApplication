@@ -3,7 +3,6 @@ import com.leasing.security.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,18 +22,31 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf().disable()
-                .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+    public SecurityFilterChain filterChainByUser(HttpSecurity httpUser) throws Exception {
+        return httpUser
                 .authorizeRequests()
-                .antMatchers("/registration", "/auth").permitAll()
-                .antMatchers("/user/**").hasRole("USER") //TODO : нужно ли прописывать весь контроллер
+                .antMatchers("/registration" ).permitAll()
+                .antMatchers("/user/update", "user/{id}").hasRole("USER")
+                .antMatchers("/agreement/allAg", "/agreement/getBy{id}").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/info/allInfo", "/info/getInfoBy{id}").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/card/createCard", "/card/updateCard", "/card/deleteCard").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic()
+                .and()
+                .build();
+    }
+    @Bean
+    public SecurityFilterChain filterChainByAdmin(HttpSecurity httpAdmin) throws Exception{
+        return httpAdmin
+                .authorizeRequests()
+                .antMatchers("/user/create", "user/deleteUser{id}", "/user/all").hasRole("ADMIN")
+                .antMatchers("/agreement/createAg", "/agreement/updateAg", "/agreement/deleteAg").hasRole("ADMIN")
+                .antMatchers("/info/createInfo", "info/updateInfo", "/info/deleteAgInfo").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                .and()
                 .build();
     }
 

@@ -25,7 +25,7 @@ public class AgreementController {
     public AgreementController(AgreementService agreementService) {
         this.agreementService = agreementService;
     }
-    @PostMapping
+    @PostMapping("/createAg")
     public ResponseEntity<HttpStatus> createAgreement(@RequestBody Agreement agreement, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
@@ -36,7 +36,7 @@ public class AgreementController {
         agreementService.createAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PutMapping
+    @PutMapping("/updateAg")
     public ResponseEntity<HttpStatus> updateAgreement(@RequestBody Agreement agreement, BindingResult bindingResult ) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
@@ -47,16 +47,16 @@ public class AgreementController {
         agreementService.updateAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping
+    @GetMapping("/allAg")
     public ResponseEntity<ArrayList<Agreement>> getAllAgreements() {
         return new ResponseEntity<>(agreementService.getAllAgreements(), HttpStatus.OK);
     }
-    @GetMapping("{/id}")
+    @GetMapping("getBy{/id}")
     public ResponseEntity<Agreement> getAgreementById(@PathVariable int id){
         Agreement agreement = agreementService.getAgreementById(id);
         return new ResponseEntity<>(agreement, agreement.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
-    @DeleteMapping
+    @DeleteMapping("/deleteAg")
     public ResponseEntity<HttpStatus> delete(@RequestBody Agreement agreement) {
         agreementService.deleteAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
