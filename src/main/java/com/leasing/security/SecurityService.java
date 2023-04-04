@@ -1,4 +1,5 @@
 package com.leasing.security;
+import com.leasing.domain.CreditCard;
 import com.leasing.domain.User;
 import com.leasing.domain.request.JwtAuthRequest;
 import com.leasing.domain.request.RegistrationUser;
@@ -22,6 +23,7 @@ public class SecurityService {
     private final UserService userService;
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     public SecurityService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserService userService) {
         this.userRepository = userRepository;
@@ -29,7 +31,7 @@ public class SecurityService {
         this.userService = userService;
     }
 
-//    public String getToken(JwtAuthRequest jwtAuthRequest){
+    //    public String getToken(JwtAuthRequest jwtAuthRequest){
 //        Optional<User> user = userRepository.findUserByLogin(jwtAuthRequest.getLogin());
 //        if(user.isPresent() && passwordEncoder.matches(jwtAuthRequest.getPassword(), user.get().getPassword())){
 //            return jwtProvider.createJwtToken(jwtAuthRequest.getLogin());

@@ -1,7 +1,10 @@
 package com.leasing.domain;
 import lombok.Data;
+import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 @Data
@@ -12,15 +15,20 @@ public class CreditCard {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="credit_card_seq")
     @SequenceGenerator(name = "credit_card_seq", sequenceName = "credit_card_id_seq", allocationSize = 1)
     private int id;
+    @NotBlank
     @Column(name = "card_number")
     private String cardNumber;
+    @NotBlank
     @Column(name = "card_type")
     private String cardType;
+    @NotBlank
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
-    @Size(min = 3, max = 3)
+    @NotBlank
+    @Pattern(regexp = "[0-9]{3}")
     @Column(name = "cvc_code")
     private int cvcCode;
+    @NotBlank
     @Column(name = "user_id")
     private int userId;
 }

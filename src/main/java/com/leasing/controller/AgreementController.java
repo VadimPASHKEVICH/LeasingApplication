@@ -61,4 +61,8 @@ public class AgreementController {
         agreementService.deleteAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @GetMapping("/debt")
+    public ResponseEntity<ArrayList<Agreement>> getAgreementsWhereDebt(){
+        return new ResponseEntity<>(agreementService.getAgreementsWhereDebt(), HttpStatus.OK);
+    }
 }

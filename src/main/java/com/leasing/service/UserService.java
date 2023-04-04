@@ -23,7 +23,7 @@ public class UserService {
         return userRepository.getRole(id);
     }
 
-    public Optional<User> getUserByLogin(String login){
-        return userRepository.findUserByLogin(login);
-    }
+    //public Optional<User> getUserByLogin(String login) {
+  //      return userRepository.findUserByLogin(login);
+   // }
 }

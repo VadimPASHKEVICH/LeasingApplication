@@ -1,4 +1,5 @@
 package com.leasing.security;
+import com.leasing.domain.CreditCard;
 import com.leasing.domain.request.JwtAuthRequest;
 import com.leasing.domain.request.RegistrationUser;
 import com.leasing.domain.response.JwtResponse;
