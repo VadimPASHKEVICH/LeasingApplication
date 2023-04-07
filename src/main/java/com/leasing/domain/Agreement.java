@@ -3,6 +3,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Date;
+
 @Data
 @Entity
 @Table(name = "agreements")

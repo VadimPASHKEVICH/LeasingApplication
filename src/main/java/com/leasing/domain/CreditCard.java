@@ -1,18 +1,16 @@
 package com.leasing.domain;
 import lombok.Data;
-import org.hibernate.validator.constraints.CreditCardNumber;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
+
 @Data
 @Entity
 @Table(name = "credit_card")
 public class CreditCard {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="credit_card_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "credit_card_seq")
     @SequenceGenerator(name = "credit_card_seq", sequenceName = "credit_card_id_seq", allocationSize = 1)
     private int id;
     @NotBlank

@@ -1,7 +1,6 @@
 package com.leasing.controller;
 
 import com.leasing.domain.Agreement;
-import com.leasing.domain.User;
 import com.leasing.service.AgreementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +20,14 @@ public class AgreementController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final AgreementService agreementService;
+
     @Autowired
     public AgreementController(AgreementService agreementService) {
         this.agreementService = agreementService;
     }
+
     @PostMapping("/createAg")
-    public ResponseEntity<HttpStatus> createAgreement(@RequestBody Agreement agreement, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> createAgreement(@RequestBody Agreement agreement, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -36,8 +37,9 @@ public class AgreementController {
         agreementService.createAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @PutMapping("/updateAg")
-    public ResponseEntity<HttpStatus> updateAgreement(@RequestBody Agreement agreement, BindingResult bindingResult ) {
+    public ResponseEntity<HttpStatus> updateAgreement(@RequestBody Agreement agreement, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -47,22 +49,33 @@ public class AgreementController {
         agreementService.updateAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @GetMapping("/allAg")
     public ResponseEntity<ArrayList<Agreement>> getAllAgreements() {
         return new ResponseEntity<>(agreementService.getAllAgreements(), HttpStatus.OK);
     }
+
     @GetMapping("getBy{/id}")
-    public ResponseEntity<Agreement> getAgreementById(@PathVariable int id){
+    public ResponseEntity<Agreement> getAgreementById(@PathVariable int id) {
         Agreement agreement = agreementService.getAgreementById(id);
         return new ResponseEntity<>(agreement, agreement.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
+
     @DeleteMapping("/deleteAg")
     public ResponseEntity<HttpStatus> delete(@RequestBody Agreement agreement) {
         agreementService.deleteAgreement(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @GetMapping("/debt")
-    public ResponseEntity<ArrayList<Agreement>> getAgreementsWhereDebt(){
-        return new ResponseEntity<>(agreementService.getAgreementsWhereDebt(), HttpStatus.OK);
+    public ResponseEntity<ArrayList<Agreement>> getAgreementsWhereDebt(@RequestBody Agreement agreement, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            for (ObjectError o : bindingResult.getAllErrors()) {
+                log.warn(o.getDefaultMessage());
+            }
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        agreementService.getAgreementsWhereDebt(agreement);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

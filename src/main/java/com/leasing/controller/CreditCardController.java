@@ -1,7 +1,6 @@
 package com.leasing.controller;
 
 import com.leasing.domain.CreditCard;
-import com.leasing.domain.User;
 import com.leasing.service.CreditCardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +19,14 @@ public class CreditCardController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final CreditCardService cardService;
+
     @Autowired
     public CreditCardController(CreditCardService cardService) {
         this.cardService = cardService;
     }
+
     @PostMapping("/createCard")
-    public ResponseEntity<HttpStatus> createCard(@RequestBody CreditCard card, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> createCard(@RequestBody CreditCard card, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -35,8 +36,9 @@ public class CreditCardController {
         cardService.createCard(card);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @PutMapping("/updateCard")
-    public ResponseEntity<HttpStatus> updateCard(@RequestBody CreditCard card, BindingResult bindingResult ) {
+    public ResponseEntity<HttpStatus> updateCard(@RequestBody CreditCard card, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -46,6 +48,7 @@ public class CreditCardController {
         cardService.updateCard(card);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @DeleteMapping("/deleteCard")
     public ResponseEntity<HttpStatus> deleteCard(@RequestBody CreditCard card) {
         cardService.deleteCard(card);

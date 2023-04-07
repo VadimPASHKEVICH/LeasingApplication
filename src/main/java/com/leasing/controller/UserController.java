@@ -1,4 +1,5 @@
 package com.leasing.controller;
+
 import com.leasing.domain.User;
 import com.leasing.service.UserService;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 
 @RestController
@@ -17,12 +19,14 @@ import java.util.ArrayList;
 public class UserController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final UserService userService;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @PostMapping("/create")
-    public ResponseEntity<HttpStatus> createUser(@RequestBody User user, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> createUser(@RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -32,8 +36,9 @@ public class UserController {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @PutMapping("/update")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, BindingResult bindingResult ) {
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -43,15 +48,18 @@ public class UserController {
         userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @GetMapping("/all")
     public ResponseEntity<ArrayList<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id){
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, user.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
+
     @DeleteMapping("/deleteUser{id}")
     public ResponseEntity<HttpStatus> deleteUserById(@PathVariable int id) {
         userService.deleteUserById(id);

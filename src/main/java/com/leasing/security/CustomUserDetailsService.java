@@ -1,4 +1,5 @@
 package com.leasing.security;
+
 import com.leasing.domain.User;
 import com.leasing.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    UserRepository userRepository;
+
     @Autowired
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -19,12 +21,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findUserByLogin(s);
-        if(user == null){
-            throw  new UsernameNotFoundException(s);
+        if (user == null) {
+            throw new UsernameNotFoundException(s);
         }
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getLogin())
                 .password(user.getPassword())
-                .roles(userRepository.getRole(user.getId())).build();
+                .build();
     }
 }

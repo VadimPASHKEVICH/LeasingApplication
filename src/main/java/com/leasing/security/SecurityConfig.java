@@ -1,4 +1,5 @@
 package com.leasing.security;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,36 +9,41 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     CustomUserDetailsService customUserDetailsService;
+
     @Autowired
     public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
     }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
+
     @Bean
     public SecurityFilterChain filterChainByUser(HttpSecurity httpUser) throws Exception {
         return httpUser
                 .authorizeRequests()
-                .antMatchers("/registration" ).permitAll()
-                .antMatchers("/user/update", "user/{id}").hasRole("USER")
+                .antMatchers("/registration", "/user").permitAll()
+                .antMatchers("/user/update", "/user/{id}").hasRole("USER")
                 .antMatchers("/agreement/allAg", "/agreement/getBy{id}").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/info/allInfo", "/info/getInfoBy{id}").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/card/createCard", "/card/updateCard", "/card/deleteCard").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic()
+                .formLogin()
                 .and()
                 .build();
     }
+
     @Bean
-    public SecurityFilterChain filterChainByAdmin(HttpSecurity httpAdmin) throws Exception{
+    public SecurityFilterChain filterChainByAdmin(HttpSecurity httpAdmin) throws Exception {
         return httpAdmin
                 .authorizeRequests()
                 .antMatchers("/user/create", "user/deleteUser{id}", "/user/all").hasRole("ADMIN")

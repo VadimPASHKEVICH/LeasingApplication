@@ -1,12 +1,12 @@
 package com.leasing.service;
 
 import com.leasing.domain.Agreement;
-import com.leasing.domain.User;
 import com.leasing.repository.AgreementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+
 @Service
 public class AgreementService {
     private final AgreementRepository agreementRepository;
@@ -36,7 +36,7 @@ public class AgreementService {
         agreementRepository.delete(agreement);
     }
 
-    public ArrayList<Agreement> getAgreementsWhereDebt() {
+    public ArrayList<Agreement> getAgreementsWhereDebt(Agreement agreement) {
         return agreementRepository.getAgreementsWhereDebt();
     }
 }

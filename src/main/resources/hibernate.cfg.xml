@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
 
-        <property name="connection.url">jdbc:postgresql://localhost/credit_base</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/credit_base</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">root</property>
@@ -18,8 +18,9 @@
 
         <mapping class="com.leasing.domain.User"/>
         <mapping class="com.leasing.domain.Agreement"/>
-        <mapping class="com.leasing.domain.CreditCard"/>
         <mapping class="com.leasing.domain.AgreementInfo"/>
+        <mapping class="com.leasing.domain.CreditCard"/>
+
 
     </session-factory>
 </hibernate-configuration>

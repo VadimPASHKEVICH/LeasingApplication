@@ -1,0 +1,89 @@
+create table public.users
+(
+    id         bigint default nextval('user_id_seq'::regclass) not null
+        constraint users_pk
+            primary key,
+    login      varchar                                         not null,
+    password   varchar                                         not null,
+    first_name varchar                                         not null,
+    last_name  varchar                                         not null
+);
+
+alter table public.users
+    owner to postgres;
+
+create table public.agreements
+(
+    id        bigint default nextval('agreement_id_seq'::regclass) not null
+        constraint agreement_pk
+            primary key,
+    agreement varchar                                              not null
+        constraint agreements_pk
+            unique,
+    user_id   integer
+        constraint client_user_id_fk
+            references public.users
+            on update cascade on delete cascade,
+    term      date                                                 not null,
+    payment   double precision,
+    debt      double precision,
+    credit    double precision
+);
+
+alter table public.agreements
+    owner to postgres;
+
+create table public.agreement_info
+(
+    id           bigint default nextval('agreement_id_seq'::regclass) not null
+        primary key,
+    make         varchar                                              not null,
+    model        varchar                                              not null,
+    year         integer                                              not null,
+    agreement_id varchar                                              not null
+        constraint agreement_info_pk
+            unique
+);
+
+alter table public.agreement_info
+    owner to postgres;
+
+create unique index agreement_info_agreement_id_uindex
+    on public.agreement_info (agreement_id);
+
+create table public.credit_card
+(
+    id              bigserial
+        constraint credit_card_pk
+            primary key,
+    card_number     varchar(19)  not null,
+    card_type       varchar(100) not null,
+    expiration_date date         not null,
+    cvc_code        integer      not null,
+    user_id         integer      not null
+        constraint credit_card_users_id_fk
+            references public.users
+            on update cascade on delete cascade
+);
+
+alter table public.credit_card
+    owner to postgres;
+
+create table public.roles
+(
+    id        bigserial
+        constraint roles_pk
+            primary key,
+    user_id   integer                                   not null
+        constraint roles_users_id_fk
+            references public.users
+            on update cascade on delete cascade,
+    user_role varchar default 'USER'::character varying not null
+);
+
+alter table public.roles
+    owner to postgres;
+
+create unique index roles_user_id_uindex
+    on public.roles (user_id);
+
