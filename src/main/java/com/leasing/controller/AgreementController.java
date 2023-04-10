@@ -1,5 +1,4 @@
 package com.leasing.controller;
-
 import com.leasing.domain.Agreement;
 import com.leasing.service.AgreementService;
 import org.slf4j.Logger;
@@ -64,18 +63,6 @@ public class AgreementController {
     @DeleteMapping("/deleteAg")
     public ResponseEntity<HttpStatus> delete(@RequestBody Agreement agreement) {
         agreementService.deleteAgreement(agreement);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/debt")
-    public ResponseEntity<ArrayList<Agreement>> getAgreementsWhereDebt(@RequestBody Agreement agreement, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            for (ObjectError o : bindingResult.getAllErrors()) {
-                log.warn(o.getDefaultMessage());
-            }
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        agreementService.getAgreementsWhereDebt(agreement);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

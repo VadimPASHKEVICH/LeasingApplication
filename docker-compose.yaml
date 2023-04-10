@@ -6,7 +6,7 @@ services:
     ports:
     - "5432:5432"
     environment:
-      - POSTGRES_DB=credit
+      - POSTGRES_DB=credit_base
       - POSTGRES_PASSWORD=root
     image: postgres:latest
     networks:

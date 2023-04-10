@@ -36,7 +36,4 @@ public class AgreementService {
         agreementRepository.delete(agreement);
     }
 
-    public ArrayList<Agreement> getAgreementsWhereDebt(Agreement agreement) {
-        return agreementRepository.getAgreementsWhereDebt();
-    }
 }

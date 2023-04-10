@@ -3,6 +3,8 @@ package com.leasing.service;
 import com.leasing.domain.User;
 import com.leasing.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.endpoint.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    //public Optional<User> getUserByLogin(String login) {
-    //      return userRepository.findUserByLogin(login);
-    // }
+    public User getUserByLogin(){
+        return userRepository.findUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
 }

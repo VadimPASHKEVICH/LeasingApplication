@@ -27,35 +27,21 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChainByUser(HttpSecurity httpUser) throws Exception {
-        return httpUser
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
                 .authorizeRequests()
-                .antMatchers("/registration", "/user").permitAll()
-                .antMatchers("/user/update", "/user/{id}").hasRole("USER")
-                .antMatchers("/agreement/allAg", "/agreement/getBy{id}").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/info/allInfo", "/info/getInfoBy{id}").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/card/createCard", "/card/updateCard", "/card/deleteCard").hasRole("USER")
+                .antMatchers("/registration/user", "/swagger-ui/index.html").permitAll()
+                .antMatchers("/user/create", "user/update").permitAll()
+                .antMatchers("/agreement/allAg","/agreement/getBy{/id}","/agreement/debt").permitAll()
+                .antMatchers("/info/allInfo", "/getInfoBy{id}").permitAll()
+                .antMatchers("/card/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .and()
                 .build();
     }
-
-    @Bean
-    public SecurityFilterChain filterChainByAdmin(HttpSecurity httpAdmin) throws Exception {
-        return httpAdmin
-                .authorizeRequests()
-                .antMatchers("/user/create", "user/deleteUser{id}", "/user/all").hasRole("ADMIN")
-                .antMatchers("/agreement/createAg", "/agreement/updateAg", "/agreement/deleteAg").hasRole("ADMIN")
-                .antMatchers("/info/createInfo", "info/updateInfo", "/info/deleteAgInfo").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .build();
-    }
-
+        //TODO: Add an admin role for all application classes
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

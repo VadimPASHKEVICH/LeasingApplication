@@ -8,5 +8,6 @@ import java.util.ArrayList;
 @Repository
 public interface AgreementRepository extends JpaRepository<Agreement, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM agreements WHERE debt = :debt")
-    ArrayList<Agreement> getAgreementsWhereDebt();
+    Agreement getAgreementsWhereDebt(double debt);
+
 }
