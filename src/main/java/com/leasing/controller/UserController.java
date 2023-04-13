@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @RestController
@@ -25,44 +26,43 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<HttpStatus> createUser(@RequestBody User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            for (ObjectError o : bindingResult.getAllErrors()) {
-                log.warn(o.getDefaultMessage());
-            }
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        userService.createUser(user);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 
     @PutMapping("/update")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
             }
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(userService.updateUser(user)){
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         userService.updateUser(user);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/all")
     public ResponseEntity<ArrayList<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+        if(!userService.getAllUsers().isEmpty() ) {
+            return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id) {
         User user = userService.getUserById(id);
-        return new ResponseEntity<>(user, user.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
+        return new ResponseEntity<>(user, user.getId() != 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/deleteUser{id}")
+    @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<HttpStatus> deleteUserById(@PathVariable int id) {
-        userService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if(userService.deleteUserById(id)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 }

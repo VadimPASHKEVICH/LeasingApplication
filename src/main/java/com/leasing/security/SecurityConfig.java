@@ -13,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     CustomUserDetailsService customUserDetailsService;
 
     @Autowired
@@ -30,18 +29,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests()
-                .antMatchers("/registration/user", "/swagger-ui/index.html").permitAll()
+                .antMatchers("/registration","/registration/user", "/swagger-ui/index.html").permitAll()
                 .antMatchers("/user/create", "user/update").permitAll()
                 .antMatchers("/agreement/allAg","/agreement/getBy{/id}","/agreement/debt").permitAll()
                 .antMatchers("/info/allInfo", "/getInfoBy{id}").permitAll()
                 .antMatchers("/card/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
+                .httpBasic()
                 .and()
                 .build();
     }
-        //TODO: Add an admin role for all application classes
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

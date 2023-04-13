@@ -52,7 +52,11 @@ public class AgreementInfoController {
 
     @GetMapping("/allInfo")
     public ResponseEntity<ArrayList<AgreementInfo>> getAllAgInfo() {
-        return new ResponseEntity<>(agreementInfoService.getAllAgInfo(), HttpStatus.OK);
+        if (agreementInfoService.getAllAgInfo() != null) {
+            return new ResponseEntity<>(agreementInfoService.getAllAgInfo(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("/getInfoBy{id}")

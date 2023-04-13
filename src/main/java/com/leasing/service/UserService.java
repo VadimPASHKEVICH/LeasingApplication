@@ -2,29 +2,40 @@ package com.leasing.service;
 
 import com.leasing.domain.User;
 import com.leasing.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public User getUserByLogin() {
+        return userRepository.findUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
-    public User updateUser(User user) {
-        return userRepository.saveAndFlush(user);
+    public boolean updateUser(User user) {
+        if (getUserByLogin().getId() == user.getId()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.saveAndFlush(user);
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<User> getAllUsers() {
@@ -32,14 +43,25 @@ public class UserService {
     }
 
     public User getUserById(int id) {
-        return userRepository.findById(id).get();
+        try {
+            User user = userRepository.findById(id).get();
+            if (user == null) {
+                throw new NoSuchElementException();
+            } else {
+                return user;
+            }
+        } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
+        }
+        return new User();
     }
 
-    public void deleteUserById(int id) {
-        userRepository.deleteById(id);
-    }
-
-    public User getUserByLogin(){
-        return userRepository.findUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+    public boolean deleteUserById(int id) {
+        if (userRepository.findById(id).isPresent()) {
+            userRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

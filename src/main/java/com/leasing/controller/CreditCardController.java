@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/card", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CreditCardController {
@@ -26,7 +28,7 @@ public class CreditCardController {
     }
 
     @PostMapping("/createCard")
-    public ResponseEntity<HttpStatus> createCard(@RequestBody CreditCard card, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createCard(@RequestBody @Valid CreditCard card, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -38,7 +40,7 @@ public class CreditCardController {
     }
 
     @PutMapping("/updateCard")
-    public ResponseEntity<HttpStatus> updateCard(@RequestBody CreditCard card, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateCard(@RequestBody @Valid CreditCard card, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -50,7 +52,13 @@ public class CreditCardController {
     }
 
     @DeleteMapping("/deleteCard")
-    public ResponseEntity<HttpStatus> deleteCard(@RequestBody CreditCard card) {
+    public ResponseEntity<HttpStatus> deleteCard(@RequestBody CreditCard card, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            for(ObjectError o : bindingResult.getAllErrors()){
+                log.warn(o.getDefaultMessage());
+            }
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         cardService.deleteCard(card);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

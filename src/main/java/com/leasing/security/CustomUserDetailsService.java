@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
     UserRepository userRepository;
 
     @Autowired
@@ -27,6 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getLogin())
                 .password(user.getPassword())
-                .build();
+                .roles(userRepository.getRole(user.getId())).build();
     }
 }

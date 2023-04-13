@@ -1,5 +1,7 @@
 package com.leasing.domain;
+
 import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Date;
@@ -24,5 +26,5 @@ public class Agreement {
     @Column(name = "credit")
     private double credit;
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 }
