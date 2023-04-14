@@ -1,15 +1,12 @@
 package com.leasing.domain;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
@@ -29,4 +26,11 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    public User(int id, String login, String password, String firstName, String lastName) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }

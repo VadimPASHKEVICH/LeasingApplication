@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -14,6 +15,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     CustomUserDetailsService customUserDetailsService;
+
+    private static final String[] AUTH_WHITELIST ={
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers(AUTH_WHITELIST);
+    }
 
     @Autowired
     public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
@@ -27,18 +40,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        return http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/registration","/registration/user", "/swagger-ui/index.html").permitAll()
-                .antMatchers("/user/create", "user/update").permitAll()
-                .antMatchers("/agreement/allAg","/agreement/getBy{/id}","/agreement/debt").permitAll()
-                .antMatchers("/info/allInfo", "/getInfoBy{id}").permitAll()
-                .antMatchers("/card/**").hasRole("USER")
+                .antMatchers("/registration/user").permitAll()
+                .antMatchers("/user/update", "/deleteUser/{id}").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/all", "/user/{id}").hasRole("ADMIN")
+                .antMatchers("/agreement/**", "/info/**").hasRole("ADMIN")
+                .antMatchers("/card").hasRole("USER")
+                .antMatchers("/swagger-ui/index.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
-                .and()
-                .build();
+                .and().build();
+
     }
     @Bean
     public PasswordEncoder passwordEncoder() {

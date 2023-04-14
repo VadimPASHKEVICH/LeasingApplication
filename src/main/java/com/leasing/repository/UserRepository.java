@@ -9,10 +9,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findUserByLogin(String login);
 
-    @Query(nativeQuery = true, value = "SELECT role FROM roles WHERE user_id=:id")
+    @Query(nativeQuery = true, value = "SELECT user_role FROM roles WHERE user_id=:id")
     String getRole(int id);
 
     @Modifying
-    @Query(nativeQuery = true, value = "INSERT INTO roles (id,user_id,role) VALUES (DEFAULT,:userId,'USER')")
+    @Query(nativeQuery = true, value = "INSERT INTO roles (id,user_id,user_role) VALUES (DEFAULT,:userId,'USER')")
     void setUserRole(int userId);
 }

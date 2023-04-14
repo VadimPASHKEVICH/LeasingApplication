@@ -3,7 +3,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
 
 @Data
 @Entity
@@ -21,7 +20,7 @@ public class CreditCard {
     private String cardType;
     @NotBlank
     @Column(name = "expiration_date")
-    private LocalDate expirationDate;
+    private String expirationDate;
     @NotBlank
     @Pattern(regexp = "[0-9]{3}")
     @Column(name = "cvc_code")
@@ -29,4 +28,12 @@ public class CreditCard {
     @NotBlank
     @Column(name = "user_id")
     private int userId;
+
+    public CreditCard(int id, String cardNumber, String cardType, String expirationDate, int cvcCode) {
+        this.id = id;
+        this.cardNumber = cardNumber;
+        this.cardType = cardType;
+        this.expirationDate = expirationDate;
+        this.cvcCode = cvcCode;
+    }
 }

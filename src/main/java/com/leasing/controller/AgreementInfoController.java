@@ -66,7 +66,13 @@ public class AgreementInfoController {
     }
 
     @DeleteMapping("/deleteAgInfo")
-    public ResponseEntity<HttpStatus> delete(@RequestBody AgreementInfo agreementInfo) {
+    public ResponseEntity<HttpStatus> delete(@RequestBody AgreementInfo agreementInfo, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            for (ObjectError o : bindingResult.getAllErrors()){
+                log.warn(o.getDefaultMessage());
+            }
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         agreementInfoService.deleteAgInfo(agreementInfo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

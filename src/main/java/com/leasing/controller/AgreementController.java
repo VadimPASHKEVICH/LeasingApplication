@@ -51,7 +51,10 @@ public class AgreementController {
 
     @GetMapping("/allAg")
     public ResponseEntity<ArrayList<Agreement>> getAllAgreements() {
-        return new ResponseEntity<>(agreementService.getAllAgreements(), HttpStatus.OK);
+        if(!agreementService.getAllAgreements().isEmpty()){
+            return new ResponseEntity<>(agreementService.getAllAgreements(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("getBy{/id}")
@@ -61,8 +64,14 @@ public class AgreementController {
     }
 
     @DeleteMapping("/deleteAg")
-    public ResponseEntity<HttpStatus> delete(@RequestBody Agreement agreement) {
-        agreementService.deleteAgreement(agreement);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<HttpStatus> delete(@RequestBody Agreement agreement, BindingResult bindingResult) {
+       if(bindingResult.hasErrors()){
+           for (ObjectError o : bindingResult.getAllErrors()){
+               log.warn(o.getDefaultMessage());
+           }
+           return new ResponseEntity<>(HttpStatus.CONFLICT);
+       }
+       agreementService.deleteAgreement(agreement);
+       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
