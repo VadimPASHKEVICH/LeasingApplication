@@ -1,5 +1,6 @@
 package com.leasing.security;
 
+import com.leasing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    private static final String[] AUTH_WHITELIST ={
+    private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/v2/api-docs",
@@ -43,10 +44,10 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/registration/user").permitAll()
-                .antMatchers("/user/update", "/deleteUser/{id}").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/update", "/user/deleteUser/{id}").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/user/all", "/user/{id}").hasRole("ADMIN")
                 .antMatchers("/agreement/**", "/info/**").hasRole("ADMIN")
-                .antMatchers("/card").hasRole("USER")
+                .antMatchers("/card/**").hasRole("USER")
                 .antMatchers("/swagger-ui/index.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -55,8 +56,6 @@ public class SecurityConfig {
 
     }
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();}
 }
 

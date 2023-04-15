@@ -1,10 +1,15 @@
 package com.leasing.domain;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "agreement_info")
 public class AgreementInfo {
     @Id
@@ -23,4 +28,11 @@ public class AgreementInfo {
     @NotBlank
     @Column(name = "agreement_id")
     private String agreementId;
+
+    public AgreementInfo(int id, String make, String model, int year) {
+        this.id = id;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+    }
 }

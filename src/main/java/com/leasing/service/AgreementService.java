@@ -12,7 +12,7 @@ public class AgreementService {
     private final AgreementRepository agreementRepository;
 
     @Autowired
-    public AgreementService(AgreementRepository agreementRepository) {
+    public AgreementService(AgreementRepository agreementRepository, AgreementService agreementService) {
         this.agreementRepository = agreementRepository;
     }
 

@@ -1,11 +1,16 @@
 package com.leasing.domain;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "credit_card")
 public class CreditCard {
     @Id
@@ -28,12 +33,4 @@ public class CreditCard {
     @NotBlank
     @Column(name = "user_id")
     private int userId;
-
-    public CreditCard(int id, String cardNumber, String cardType, String expirationDate, int cvcCode) {
-        this.id = id;
-        this.cardNumber = cardNumber;
-        this.cardType = cardType;
-        this.expirationDate = expirationDate;
-        this.cvcCode = cvcCode;
-    }
 }

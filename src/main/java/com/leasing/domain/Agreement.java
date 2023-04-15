@@ -1,13 +1,15 @@
 package com.leasing.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Date;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "agreements")
 public class Agreement {
     @Id
@@ -18,7 +20,7 @@ public class Agreement {
     @Column(name = "agreement")
     private int agreement;
     @Column(name = "term")
-    private Date term;
+    private String term;
     @Column(name = "payment")
     private double payment;
     @Column(name = "debt")
@@ -27,4 +29,13 @@ public class Agreement {
     private double credit;
     @Column(name = "user_id")
     private int userId;
+
+    public Agreement(int id, int agreement, String term, double payment, double debt, double credit) {
+        this.id = id;
+        this.agreement = agreement;
+        this.term = term;
+        this.payment = payment;
+        this.debt = debt;
+        this.credit = credit;
+    }
 }

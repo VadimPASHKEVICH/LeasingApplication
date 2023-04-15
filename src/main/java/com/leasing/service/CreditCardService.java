@@ -10,7 +10,7 @@ public class CreditCardService {
     CreditCardRepository creditCardRepository;
 
     @Autowired
-    public CreditCardService(CreditCardRepository creditCardRepository) {
+    public CreditCardService(CreditCardRepository creditCardRepository, CreditCardService creditCardService) {
         this.creditCardRepository = creditCardRepository;
     }
 
