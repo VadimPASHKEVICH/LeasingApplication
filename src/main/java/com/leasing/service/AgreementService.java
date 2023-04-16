@@ -10,10 +10,12 @@ import java.util.ArrayList;
 @Service
 public class AgreementService {
     private final AgreementRepository agreementRepository;
+    private final AgreementService agreementService;
 
     @Autowired
     public AgreementService(AgreementRepository agreementRepository, AgreementService agreementService) {
         this.agreementRepository = agreementRepository;
+        this.agreementService = agreementService;
     }
 
     public Agreement getAgreementById(int id) {return agreementRepository.findById(id).get();}

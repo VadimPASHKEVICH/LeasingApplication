@@ -1,4 +1,5 @@
 package com.leasing.controller;
+
 import com.leasing.domain.Agreement;
 import com.leasing.service.AgreementService;
 import org.slf4j.Logger;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.ArrayList;
 
 @RestController
@@ -26,7 +26,6 @@ public class AgreementController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final AgreementService agreementService;
-
     @Autowired
     public AgreementController(AgreementService agreementService) {
         this.agreementService = agreementService;

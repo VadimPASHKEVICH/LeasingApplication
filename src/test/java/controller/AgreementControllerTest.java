@@ -1,6 +1,7 @@
 package controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leasing.controller.AgreementController;
 import com.leasing.domain.Agreement;
 import com.leasing.service.AgreementService;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AgreementControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    private AgreementController agreementController;
     @Mock
     private AgreementService agreementService;
 

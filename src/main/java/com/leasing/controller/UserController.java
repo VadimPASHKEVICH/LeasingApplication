@@ -32,7 +32,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @PutMapping("/update")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

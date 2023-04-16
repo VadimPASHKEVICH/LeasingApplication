@@ -27,12 +27,6 @@ public class AgreementInfo {
     private int year;
     @NotBlank
     @Column(name = "agreement_id")
-    private String agreementId;
+    private int agreementId;
 
-    public AgreementInfo(int id, String make, String model, int year) {
-        this.id = id;
-        this.make = make;
-        this.model = model;
-        this.year = year;
-    }
 }

@@ -3,6 +3,7 @@ package service;
 import com.leasing.domain.AgreementInfo;
 import com.leasing.repository.AgreementInfoRepository;
 import com.leasing.service.AgreementInfoService;
+import com.leasing.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -27,10 +28,10 @@ public class AgreementInfoServiceTest {
     private List<AgreementInfo> agreementInfoList;
 
     @BeforeEach
-    void serAgreementInfo() {
+    void setAgreementInfo() {
         MockitoAnnotations.openMocks(this);
         agreementInfoService = new AgreementInfoService(agreementInfoRepository, agreementInfoService);
-        agreementInfo = new AgreementInfo(111, "BMW", "m5", 2000);
+        agreementInfo = new AgreementInfo(33, "Opel", "Insignia", 2010, 4);
         agreementInfoList = new ArrayList<>();
         agreementInfoList.add(agreementInfo);
         agreementInfoRepository.save(agreementInfo);

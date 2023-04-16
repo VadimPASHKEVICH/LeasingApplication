@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import static org.mockito.Mockito.*;
@@ -20,33 +22,24 @@ public class AgreementServiceTest {
 
     private Agreement agreement;
 
-    private List<Agreement> agreements;
+    private List<Agreement> ListAgreement;
 
     @BeforeEach
     void setAgreement() {
         MockitoAnnotations.openMocks(this);
         agreementService = new AgreementService(agreementRepository, agreementService);
-        agreement = new Agreement(10, 123456, "29.09.2024", 2221, 0, 100);
+        agreement = new Agreement(25, 0000025, "30.11.2025", 101.34, 0, 1000, 25);
+        ListAgreement = new ArrayList<>();
+        ListAgreement.add(agreement);
+        agreementRepository.save(agreement);
     }
 
     @Test
     void getAllAgreement() {
-        when(agreementRepository.findAll()).thenReturn(agreements);
+        when(agreementRepository.findAll()).thenReturn(ListAgreement);
         Optional<List<Agreement>> optionalBooks = Optional.ofNullable(agreementService.getAllAgreements());
 
         Assertions.assertTrue(optionalBooks.isPresent());
         verify(agreementRepository, times(1)).findAll();
-    }
-
-    @Test
-    void createAgreement() {
-        agreementService = new AgreementService(agreementRepository, agreementService);
-        agreement = new Agreement(66, 000006, "01.01.2024", 10, 0.1, 100);
-    }
-
-    @Test
-    void deleteAgreement() {
-        agreementService = new AgreementService(agreementRepository, agreementService);
-        agreement = new Agreement(66, 000006, "01.01.2024", 10, 0.1, 100);
     }
 }

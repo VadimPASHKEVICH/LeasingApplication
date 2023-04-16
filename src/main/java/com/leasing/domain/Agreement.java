@@ -3,6 +3,7 @@ package com.leasing.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -29,13 +30,4 @@ public class Agreement {
     private double credit;
     @Column(name = "user_id")
     private int userId;
-
-    public Agreement(int id, int agreement, String term, double payment, double debt, double credit) {
-        this.id = id;
-        this.agreement = agreement;
-        this.term = term;
-        this.payment = payment;
-        this.debt = debt;
-        this.credit = credit;
-    }
 }

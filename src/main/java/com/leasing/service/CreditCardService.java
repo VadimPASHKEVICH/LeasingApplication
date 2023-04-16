@@ -22,7 +22,5 @@ public class CreditCardService {
         creditCardRepository.saveAndFlush(card);
     }
 
-    public void deleteCard(CreditCard card) {
-        creditCardRepository.delete(card);
-    }
+    public void deleteCard(CreditCard card) {creditCardRepository.delete(card);}
 }
