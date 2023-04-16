@@ -1,13 +1,13 @@
 package service;
 
 import com.leasing.domain.User;
+import com.leasing.repository.AgreementRepository;
 import com.leasing.repository.UserRepository;
 import com.leasing.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,8 @@ public class UserServiceTest {
     private UserRepository userRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private AgreementRepository agreementRepository;
 
     private UserService userService;
 
@@ -32,7 +34,7 @@ public class UserServiceTest {
     @BeforeEach
     void setUser() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(userRepository, passwordEncoder);
+        userService = new UserService(userRepository, agreementRepository, passwordEncoder);
         user = new User(1, "user1", "password1", "userName", "userLastName");
         users = new ArrayList<>();
         users.add(user);

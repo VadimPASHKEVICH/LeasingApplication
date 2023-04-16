@@ -12,6 +12,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class AgreementServiceTest {
@@ -41,5 +43,11 @@ public class AgreementServiceTest {
 
         Assertions.assertTrue(optionalBooks.isPresent());
         verify(agreementRepository, times(1)).findAll();
+    }
+    @Test
+    void deleteAgreementByNumber(){
+        when(agreementRepository.getAgreementByNumber(agreement.getAgreement())).thenReturn(agreement);
+        assertTrue(agreementService.deleteAgreementNumber(agreement.getAgreement()));
+        verify(agreementRepository, times(1)).deleteById(agreement.getId());
     }
 }

@@ -1,5 +1,6 @@
 package com.leasing.controller;
 
+import com.leasing.domain.Agreement;
 import com.leasing.domain.User;
 import com.leasing.service.UserService;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class UserController {
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if(userService.updateUser(user)){
+        if (userService.updateUser(user)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         userService.updateUser(user);
@@ -48,9 +49,9 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<ArrayList<User>> getAllUsers() {
-        if(!userService.getAllUsers().isEmpty() ) {
+        if (!userService.getAllUsers().isEmpty()) {
             return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
@@ -63,10 +64,17 @@ public class UserController {
 
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<HttpStatus> deleteUserById(@PathVariable int id) {
-        if(userService.deleteUserById(id)){
+        if (userService.deleteUserById(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+    }
+    @GetMapping("/debt")
+    public ResponseEntity<ArrayList<Agreement>> getAllAgreementDebtByUserId(){
+        if(!userService.getAllAgreementDebtByUserId().isEmpty()){
+            return new ResponseEntity<>(userService.getAllAgreementDebtByUserId(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

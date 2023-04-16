@@ -1,6 +1,8 @@
 package com.leasing.service;
 
+import com.leasing.domain.Agreement;
 import com.leasing.domain.User;
+import com.leasing.repository.AgreementRepository;
 import com.leasing.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +18,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AgreementRepository agreementRepository;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, AgreementRepository agreementRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.agreementRepository = agreementRepository;
     }
 
     public User getUserByLogin() {
@@ -62,5 +66,9 @@ public class UserService {
         } else {
             return false;
         }
+    }
+
+    public ArrayList<Agreement> getAllAgreementDebtByUserId(){
+        return agreementRepository.getAgreementDebtByUserId(getUserByLogin().getId());
     }
 }

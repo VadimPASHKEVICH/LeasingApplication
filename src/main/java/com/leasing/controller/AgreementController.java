@@ -81,4 +81,16 @@ public class AgreementController {
        agreementService.deleteAgreement(agreement);
        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("/delete/{nubmer}")
+    public ResponseEntity<HttpStatus> deleteAgreementById(@PathVariable int agreement){
+        try {
+            if(agreementService.deleteAgreementNumber(agreement)){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            throw new IllegalArgumentException();
+        }catch (IllegalArgumentException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 @Service
 public class AgreementService {
     private final AgreementRepository agreementRepository;
+
     @Autowired
     public AgreementService(AgreementRepository agreementRepository) {
         this.agreementRepository = agreementRepository;
@@ -29,6 +30,13 @@ public class AgreementService {
         return (ArrayList<Agreement>) agreementRepository.findAll();
     }
 
-    public void deleteAgreement(Agreement agreement){ agreementRepository.delete(agreement);}
+    public void deleteAgreement(Agreement agreement) {agreementRepository.delete(agreement);}
 
+    public boolean deleteAgreementNumber(int agreement){
+        if(agreementRepository.getAgreementByNumber(agreement) !=null){
+            agreementRepository.deleteAgreementByNumber(agreement);
+            return true;
+        }
+        return false;
     }
+}
