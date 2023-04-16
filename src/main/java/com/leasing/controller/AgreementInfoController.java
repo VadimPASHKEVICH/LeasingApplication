@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @RestController
@@ -34,7 +34,7 @@ public class AgreementInfoController {
     }
 
     @PostMapping("/createInfo")
-    public ResponseEntity<HttpStatus> createAgInfo(@RequestBody AgreementInfo agreementInfo, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createAgInfo(@RequestBody @Valid AgreementInfo agreementInfo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -46,7 +46,7 @@ public class AgreementInfoController {
     }
 
     @PutMapping("/updateInfo")
-    public ResponseEntity<HttpStatus> updateAgInfo(@RequestBody AgreementInfo agreementInfo, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateAgInfo(@RequestBody @Valid AgreementInfo agreementInfo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -73,7 +73,7 @@ public class AgreementInfoController {
     }
 
     @DeleteMapping("/deleteAgInfo")
-    public ResponseEntity<HttpStatus> delete(@RequestBody AgreementInfo agreementInfo, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> delete(@RequestBody @Valid AgreementInfo agreementInfo, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             for (ObjectError o : bindingResult.getAllErrors()){
                 log.warn(o.getDefaultMessage());

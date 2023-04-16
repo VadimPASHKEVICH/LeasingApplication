@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @RestController
@@ -32,7 +33,7 @@ public class AgreementController {
     }
 
     @PostMapping("/createAg")
-    public ResponseEntity<HttpStatus> createAgreement(@RequestBody Agreement agreement, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createAgreement(@RequestBody @Valid Agreement agreement, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -44,7 +45,7 @@ public class AgreementController {
     }
 
     @PutMapping("/updateAg")
-    public ResponseEntity<HttpStatus> updateAgreement(@RequestBody Agreement agreement, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateAgreement(@RequestBody @Valid Agreement agreement, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn(o.getDefaultMessage());
@@ -70,7 +71,7 @@ public class AgreementController {
     }
 
     @DeleteMapping("/deleteAg")
-    public ResponseEntity<HttpStatus> delete(@RequestBody Agreement agreement, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> delete(@RequestBody @Valid Agreement agreement, BindingResult bindingResult) {
        if(bindingResult.hasErrors()){
            for (ObjectError o : bindingResult.getAllErrors()){
                log.warn(o.getDefaultMessage());
