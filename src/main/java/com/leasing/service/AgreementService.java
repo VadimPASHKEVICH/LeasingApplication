@@ -10,12 +10,10 @@ import java.util.ArrayList;
 @Service
 public class AgreementService {
     private final AgreementRepository agreementRepository;
-    private final AgreementService agreementService;
 
     @Autowired
-    public AgreementService(AgreementRepository agreementRepository, AgreementService agreementService) {
+    public AgreementService(AgreementRepository agreementRepository) {
         this.agreementRepository = agreementRepository;
-        this.agreementService = agreementService;
     }
 
     public Agreement getAgreementById(int id) {return agreementRepository.findById(id).get();}
@@ -33,4 +31,4 @@ public class AgreementService {
     }
 
     public void deleteAgreement(Agreement agreement) {agreementRepository.delete(agreement);}
-}
+    }

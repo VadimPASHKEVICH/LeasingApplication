@@ -28,7 +28,7 @@ public class CreditCardServiceTest {
     @BeforeEach
     void setCreditCard() {
         MockitoAnnotations.openMocks(this);
-        creditCardService = new CreditCardService(creditCardRepository, creditCardService);
+        creditCardService = new CreditCardService(creditCardRepository);
         creditCard = new CreditCard(1, "1111 2222 3333 4444", "MasterCard", "09/26", 101, 2);
         creditCards = new ArrayList<>();
         creditCards.add(creditCard);
@@ -36,13 +36,13 @@ public class CreditCardServiceTest {
     }
     @Test
     void createCard(){
-        creditCardService = new CreditCardService(creditCardRepository, creditCardService);
+        creditCardService = new CreditCardService(creditCardRepository);
         creditCard = new CreditCard(2,"0000111122223333", "VISA", "02.02.2025", 001, 1);
     }
 
     @Test
     void deleteCard() {
-        creditCardService = new CreditCardService(creditCardRepository, creditCardService);
+        creditCardService = new CreditCardService(creditCardRepository);
         creditCard = new CreditCard(2,"0000111122223333", "VISA", "02.02.2025", 001, 3);
     }
 }

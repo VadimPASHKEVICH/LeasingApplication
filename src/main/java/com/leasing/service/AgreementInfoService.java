@@ -12,7 +12,7 @@ public class AgreementInfoService {
     AgreementInfoRepository agreementInfoRepository;
 
     @Autowired
-    public AgreementInfoService(AgreementInfoRepository agreementInfoRepository, AgreementInfoService agreementInfoService) {
+    public AgreementInfoService(AgreementInfoRepository agreementInfoRepository) {
         this.agreementInfoRepository = agreementInfoRepository;}
 
     public void createAgInfo(AgreementInfo agreementInfo) {

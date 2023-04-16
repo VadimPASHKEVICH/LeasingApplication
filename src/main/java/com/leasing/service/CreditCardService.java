@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CreditCardService {
-    CreditCardRepository creditCardRepository;
-
+    private final CreditCardRepository creditCardRepository;
     @Autowired
-    public CreditCardService(CreditCardRepository creditCardRepository, CreditCardService creditCardService) {
+    public CreditCardService(CreditCardRepository creditCardRepository) {
         this.creditCardRepository = creditCardRepository;
     }
 

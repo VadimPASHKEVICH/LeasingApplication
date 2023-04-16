@@ -30,7 +30,7 @@ public class AgreementInfoServiceTest {
     @BeforeEach
     void setAgreementInfo() {
         MockitoAnnotations.openMocks(this);
-        agreementInfoService = new AgreementInfoService(agreementInfoRepository, agreementInfoService);
+        agreementInfoService = new AgreementInfoService(agreementInfoRepository);
         agreementInfo = new AgreementInfo(33, "Opel", "Insignia", 2010, 4);
         agreementInfoList = new ArrayList<>();
         agreementInfoList.add(agreementInfo);

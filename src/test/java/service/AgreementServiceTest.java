@@ -27,7 +27,7 @@ public class AgreementServiceTest {
     @BeforeEach
     void setAgreement() {
         MockitoAnnotations.openMocks(this);
-        agreementService = new AgreementService(agreementRepository, agreementService);
+        agreementService = new AgreementService(agreementRepository);
         agreement = new Agreement(25, 0000025, "30.11.2025", 101.34, 0, 1000, 25);
         ListAgreement = new ArrayList<>();
         ListAgreement.add(agreement);

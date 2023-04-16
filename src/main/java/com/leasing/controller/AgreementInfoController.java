@@ -66,7 +66,7 @@ public class AgreementInfoController {
         }
     }
 
-    @GetMapping("/getInfoBy{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<AgreementInfo> getAgInfoById(@PathVariable int id) {
         AgreementInfo agreementInfo = agreementInfoService.getAgInfoById(id);
         return new ResponseEntity<>(agreementInfo, agreementInfo.getId() != 0 ? HttpStatus.OK : HttpStatus.CONFLICT);
