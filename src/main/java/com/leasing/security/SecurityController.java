@@ -14,6 +14,7 @@ import java.net.http.HttpResponse;
 @RestController
 @RequestMapping(value = "/registration", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SecurityController {
+
     private final SecurityService securityService;
 
     @Autowired

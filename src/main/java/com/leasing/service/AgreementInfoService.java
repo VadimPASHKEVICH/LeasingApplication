@@ -9,11 +9,10 @@ import java.util.ArrayList;
 @Service
 public class AgreementInfoService {
 
-    AgreementInfoRepository agreementInfoRepository;
+    private AgreementInfoRepository agreementInfoRepository;
 
     @Autowired
-    public AgreementInfoService(AgreementInfoRepository agreementInfoRepository) {
-        this.agreementInfoRepository = agreementInfoRepository;}
+    public AgreementInfoService(AgreementInfoRepository agreementInfoRepository) {this.agreementInfoRepository = agreementInfoRepository;}
 
     public void createAgInfo(AgreementInfo agreementInfo) {
         agreementInfoRepository.save(agreementInfo);

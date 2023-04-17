@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 public class AgreementServiceTest {
     @Mock
     private AgreementRepository agreementRepository;
-
+    @Mock
     private AgreementService agreementService;
 
     private Agreement agreement;

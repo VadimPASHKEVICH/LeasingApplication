@@ -20,7 +20,7 @@ public class AgreementInfoServiceTest {
 
     @Mock
     private AgreementInfoRepository agreementInfoRepository;
-
+    @Mock
     private AgreementInfoService agreementInfoService;
 
     private AgreementInfo agreementInfo;

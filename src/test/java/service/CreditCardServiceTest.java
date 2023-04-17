@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CreditCardServiceTest {
     @Mock
     private CreditCardRepository creditCardRepository;
-
+    @Mock
     private UserService userService;
 
     private CreditCardService creditCardService;

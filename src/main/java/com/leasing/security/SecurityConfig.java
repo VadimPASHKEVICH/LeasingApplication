@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     private final CustomUserDetailsService customUserDetailsService;
 
     private static final String[] AUTH_WHITELIST = {

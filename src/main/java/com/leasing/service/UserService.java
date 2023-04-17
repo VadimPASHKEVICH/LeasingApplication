@@ -17,8 +17,11 @@ import java.util.NoSuchElementException;
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
+
     private final AgreementRepository agreementRepository;
+
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired

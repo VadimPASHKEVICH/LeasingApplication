@@ -4,7 +4,6 @@ import com.leasing.domain.Agreement;
 import com.leasing.repository.AgreementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 
 @Service
